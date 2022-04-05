@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div th:if="${not #lists.isEmpty(balance)}">
+    <h4>Поиск баланса</h4>
+    <form action="/balance/find" method="post">
+        <input type="number" step=0.01 min="0" name="debit" placeholder="сумма прихода" class="form-control">
+        <input type="number" step=0.01 min="0" name="credit" placeholder="сумма расхода" class="form-control">
+        <button class="btn btn-warning" type="submit">Искать</button>
+    </form>
+</div>
+<div th:if="${token}">
+    <a class="nav-link" href="/balance/add">Добавить баланс</a>
+</div>
+<div th:if="${not #lists.isEmpty(balance)}">
+    <center>
+        <div class="container mt-5">
+            <table>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сумма прихода</th>
+                    <th>Сумма расхода</th>
+                    <th>Прибыль</th>
+                </tr>
+                <tbody>
+                <tr th:each="bal : ${balance}" class="alert alert-into mt-2">
+                    <td th:text="${bal.create_date}"></td>
+                    <td th:text="${bal.debit}"></td>
+                    <td th:text="${bal.credit}"></td>
+                    <td th:text="${bal.amount}"></td>
+                    <td>
+                        <a th:href="'/balance/' + ${bal.id}" class="btn btn-warning">Детальнее</a><br/></br>
+                    </td>
+                </tbody>
+                </tr>
+            </table>
+        </div>
+    </center>
+</div>
+<div th:unless="${not #lists.isEmpty(balance)}">
+    <p>Балансов нет</p>
+</div>
+</body>
+</html>

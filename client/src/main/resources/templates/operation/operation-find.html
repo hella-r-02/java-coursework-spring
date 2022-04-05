@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<center>
+    <div class="container mt-5">
+        <div th:if="${not #lists.isEmpty(operations)}">
+            <table>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сумма прихода</th>
+                    <th>Сумма расхода</th>
+                    <th>Статья</th>
+                    <th>Дата баланса</th>
+                </tr>
+                <tbody>
+                <tr th:each="operation : ${operations}" class="alert alert-into mt-2">
+                    <td th:text="${operation.create_date}"></td>
+                    <td th:text="${operation.debit}"></td>
+                    <td th:text="${operation.credit}"></td>
+                    <td th:text="${operation.article.name}"></td>
+                    <td th:text="${operation.balance.create_date}"/>
+                    <td>
+                        <a th:href="'/operation/' + ${operation.id}" class="btn btn-warning">Детали</a><br/></br>
+                    </td>
+                </tbody>
+                </tr>
+            </table>
+        </div>
+        <div th:unless="${not #lists.isEmpty(operations)}">
+            <p>Таких операций нет</p>
+        </div>
+    </div>
+</center>
+
+</body>
+</html>

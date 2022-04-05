@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div th:if="${not #lists.isEmpty(operations)}">
+    <h4>Поиск операции по нижней границе прибыли</h4>
+    <form action="/operation/find/lower" method="post">
+        <input type="number" step=0.01 name="amount_lower" placeholder="прибыль" class="form-control">
+        <button class="btn btn-warning" type="submit">Искать</button>
+    </form>
+    <h4>Поиск операции по верхней границе прибыли</h4>
+    <form action="/operation/find/upper" method="post">
+        <input type="number" step=0.01 name="amount_upper" placeholder="прибыль" class="form-control">
+        <button class="btn btn-warning" type="submit">Искать</button>
+    </form>
+    <h4>Поиск операции по имени статьи</h4>
+    <div th:if="${not #lists.isEmpty(articles)}">
+        <form action="/operation/find/name" method="post">
+            <select id="articles" name="name">
+                <div th:each="article : ${articles}">
+                    <option th:value="${article.name}" th:text="${article.name}"/>
+                </div>
+            </select>
+            <button class="btn btn-warning" type="submit">Искать</button>
+        </form>
+    </div>
+</div>
+<div th:if="${token}">
+    <a class="nav-link" href="/operation/add">Добавить операцию</a>
+</div>
+<div th:if="${not #lists.isEmpty(operations)}">
+    <center>
+        <div class="container mt-5">
+            <table>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сумма прихода</th>
+                    <th>Сумма расхода</th>
+                    <th>Статья</th>
+                    <th>Дата баланса</th>
+                </tr>
+                <tbody>
+                <tr th:each="operation : ${operations}" class="alert alert-into mt-2">
+                    <td th:text="${operation.create_date}"></td>
+                    <td th:text="${operation.debit}"></td>
+                    <td th:text="${operation.credit}"></td>
+                    <td th:text="${operation.article.name}"></td>
+                    <td th:text="${operation.balance.create_date}"/>
+                    <td>
+                        <a th:href="'/operation/' + ${operation.id}" class="btn btn-warning">Детальнее</a><br/></br>
+                    </td>
+                </tbody>
+                </tr>
+            </table>
+        </div>
+    </center>
+</div>
+</div>
+<div th:unless="${not #lists.isEmpty(operations)}">
+    <p>Операций нет</p>
+</div>
+</body>
+</html>

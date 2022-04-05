@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div th:if="${not #lists.isEmpty(articles)}">
+    <h4>Поиск по имени </h4>
+    <form action="/article/find/name" method="post">
+        <select id="articles" name="articles">
+            <div th:each="article : ${articles_for_search}">
+                <option th:value="${article.name}" th:text="${article.name}"/>
+            </div>
+        </select>
+        <button class="btn btn-warning" type="submit">Искать</button>
+    </form>
+</div>
+<div th:if="${token}">
+    <a class="nav-link" href="/article/add">Добавить статью</a>
+</div>
+<div th:if="${not #lists.isEmpty(articles)}">
+    <center>
+        <div class="container mt-5">
+            <div th:each="article : ${articles}" class="alert alert-into mt-2">
+                <h2 th:text="${article.name} "/>
+                <h6 th:text="${article.id}"/>
+                <a th:href="'/article/' + ${article.id}" class="btn btn-warning">Детальнее</a>
+                <hr/>
+            </div>
+        </div>
+    </center>
+</div>
+<div th:unless="${not #lists.isEmpty(articles)}">
+    <p>Статей нет</p>
+</div>
+</body>
+</html>

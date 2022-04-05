@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5">
+    <div class="alert alert-into mt-2">
+        <h3 th:text="'Дата создания: ' + ${balance.create_date} "/>
+        <h3 th:text="'Приход: ' + ${balance.debit} "/>
+        <h3 th:text="'Расход: ' + ${balance.credit} "/>
+        <h3 th:text="'Прибыль: ' + ${balance.amount} "/>
+        <div th:if="${token}">
+            <a th:href="'/balance/edit/' + ${balance.id}" class="btn btn-warning">Редактировать</a><br/></br>
+            <form method="post" th:action="'/balance/remove/' + ${balance.id}">
+                <button class="btn btn-warning" type="submit">Удалить</button>
+            </form>
+            <div th:if="${not #lists.isEmpty(operations)}">
+                <h4>Удалить операции, связанные с балансом</h4>
+                <form method="post" th:action="'/operation/remove/balance_id/' + ${balance.id}">
+                    <button class="btn btn-warning" type="submit">Удалить</button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${not #lists.isEmpty(operations)}">
+            <p>Привязанные операции</p>
+            <div class="container mt-5">
+                <table>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Сумма прихода</th>
+                        <th>Сумма расхода</th>
+                        <th>Статья</th>
+                        <th>Дата баланса</th>
+                    </tr>
+                    <tbody>
+                    <tr th:each="operation : ${operations}" class="alert alert-into mt-2">
+                        <td th:text="${operation.create_date}"></td>
+                        <td th:text="${operation.debit}"></td>
+                        <td th:text="${operation.credit}"></td>
+                        <td th:text="${operation.article.name}"></td>
+                        <td th:text="${operation.balance.create_date}"/>
+                        <td>
+                            <a th:href="'/operation/' + ${operation.id}"
+                               class="btn btn-warning">Детальнее</a><br/></br>
+                        </td>
+                    </tbody>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

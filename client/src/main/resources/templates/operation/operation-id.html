@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5">
+    <div class="alert alert-into mt-2">
+        <h3 th:text="'Дата создания: ' + ${operation.create_date} "/>
+        <h3 th:text="'Приход: ' + ${operation.debit} "/>
+        <h3 th:text="'Расход: ' + ${operation.credit} "/>
+        <h3 th:text="'Дата создания баланса: ' + ${operation.balance.create_date} "/>
+        <div th:if="${token}">
+            <a th:href="'/operation/edit/' + ${operation.id}" class="btn btn-warning">Редактировать</a><br/></br>
+            <form method="post" th:action="'/operation/remove/' + ${operation.id} ">
+                <button class="btn btn-warning" type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <h3>Привязанный баланс</h3>
+    <div class="container mt-5">
+        <h5 th:text="'Дата создания: ' + ${balance.create_date} "/>
+        <h5 th:text="'Приход: ' + ${balance.debit} "/>
+        <h5 th:text="'Расход: ' + ${balance.credit} "/>
+        <h5 th:text="'Прибыль: ' + ${balance.amount} "/>
+        <a th:href="'/balance/' + ${balance.id}" class="btn btn-warning">Детальнее</a><br/></br>
+    </div>
+    <hr/>
+    <h3>Привязанная статья</h3>
+    <div class="container mt-5">
+        <h5 th:text="${article.name} "/>
+        <h5 th:text="${article.id}"/>
+        <a th:href="'/article/' + ${article.id}" class="btn btn-warning">Детальнее</a>
+        <hr/>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div th:fragment="header">
+    <div>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link active" aria-current="page" href="/article">Статьи</a>
+            <a class="nav-link" href="/operation">Операции</a>
+            <a class="nav-link" href="/balance">Баланс</a>
+            <div th:if="${token}">
+                <a class="nav-link" href="/personal-account">Личный кабинет</a>
+            </div>
+            <div th:if="${token}">
+                <a class="nav-link" href="/signout">Выйти</a>
+            </div>
+            <div th:if="not ${token}">
+                <a class="nav-link" href="/signin">Войти</a>
+            </div>
+            <div th:if="not ${token}">
+                <a class="nav-link" href="/signup">Зарегестрироваться</a>
+            </div>
+        </nav>
+    </div>
+</div>
